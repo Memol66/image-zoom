@@ -1,0 +1,44 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Read the input image
+            File inputFile = new File("input_image.jpg");
+            BufferedImage inputImage = ImageIO.read(inputFile);
+
+            // Get the original width and height
+            int originalWidth = inputImage.getWidth();
+            int originalHeight = inputImage.getHeight();
+
+            // Calculate the new width and height
+            int newWidth = originalWidth * 3;
+            int newHeight = originalHeight * 3;
+
+            // Create a new BufferedImage with the new dimensions
+            BufferedImage tripledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+
+            // Draw the input image onto the new BufferedImage, tripling its size
+            for (int y = 0; y < newHeight; y++) {
+                for (int x = 0; x < newWidth; x++) {
+                    int originalX = x / 3;
+                    int originalY = y / 3;
+                    int rgb = inputImage.getRGB(originalX, originalY);
+                    tripledImage.setRGB(x, y, rgb);
+                }
+            }
+
+            // Write the tripled image to a file
+            File outputFile = new File("tripled_image.jpg");
+            ImageIO.write(tripledImage, "jpg", outputFile);
+
+            System.out.println("Image tripled successfully.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
